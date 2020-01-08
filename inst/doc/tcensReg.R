@@ -2,12 +2,14 @@
 knitr::opts_chunk$set(echo = TRUE)
 
 ## ----how_to_install, eval=FALSE------------------------------------------
+#  #stable CRAN version
+#  install.packages("tcensReg")
+#  
+#  # or ----
+#  
+#  #active devel. GitHub version
 #  install.packages("devtools")
 #  devtools::install_github("williazo/tcensReg")
-#  #to install the package with the accompaining vignette use the command below
-#  devtools::install_github("williazo/tcensReg",
-#                           build_opts=c("--no-resave-data", "--no-manual"),
-#                           build_vignettes=TRUE)
 
 ## ----single_pop_data_gen-------------------------------------------------
 #loading the package

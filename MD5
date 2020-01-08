@@ -1,7 +1,8 @@
-bda2528f69eed42793edbd7b1023de90 *DESCRIPTION
+538bb5e13d8e7a89c62289a31cbd9663 *DESCRIPTION
 ea0567f6bf3a3c95e6bd1962c11f7ed4 *LICENSE
 361b8e51b00cbc235a10de843af2ebc9 *NAMESPACE
-6b61fa25973e15ba17c868cf0572a134 *R/rtnorm.R
+0ae5a5395226c2199577327a8fe7ca45 *NEWS
+2b8c2bd5ae584fa021366a1b7737799d *R/rtnorm.R
 450ead1ebbbfe92895e403c72432c613 *R/tcensReg.R
 3e84f6994bc590df397aec100612de6f *R/tcensReg_gradient.R
 197451fc953bf989985496d140bf87ef *R/tcensReg_gradient_sepvar.R
@@ -15,10 +16,13 @@ a56c27ee068b839cc37e8ce797fcacc7 *R/tcensReg_newton.R
 e205e59cfff76aca75af13f9e2f28595 *R/tcensReg_sepvar.R
 d3d395ac65823109517bd1a09cfc6a60 *build/vignette.rds
 f22d61ff32b9f9c47599495fd8692f08 *inst/CITATION
-808726326f89942c40d4c8e801247190 *inst/doc/tcensReg.R
-1f35801adc972e063ef5bc29666fdeef *inst/doc/tcensReg.Rmd
-eee258d2f712f31d7e93c195a2c01e86 *inst/doc/tcensReg.html
-e110efc593b6a5f5722f96f4d5904c85 *man/rtnorm.Rd
+feab8c18b331ce2aa95a4aadb86d27ca *inst/doc/tcensReg.R
+8ad19a17f6158d248afec1e3a2b9be5e *inst/doc/tcensReg.Rmd
+b65067f96cbc39bc459a864af73c6e21 *inst/doc/tcensReg.html
+4a43a0ac10e33e3e371571418a341211 *inst/script/simulation1_singlemean.R
+df2240b822758c118f04316402fc0889 *inst/script/simulation2_twopop.R
+6111fd54e340b5410a086a681a4fab82 *inst/script/simulation3_noninf.R
+724a4975583d8e6ab8d97946c7727a82 *man/rtnorm.Rd
 23a1b9da6e5c4829ebcddf47fd45e270 *man/tcensReg.Rd
 579ad6b8aa093dca3d84b9795507c55e *man/tcensReg_gradient.Rd
 05cc3683328b4cbba05fba0b57347799 *man/tcensReg_gradient_sepvar.Rd
@@ -32,4 +36,4 @@ e3c143e18db8e575761155ee167013e8 *man/tcensReg_optim.Rd
 e3c566fc4563148b6f085fe17f5a769f *man/tcensReg_sepvar.Rd
 46345b8ce2b9586c8ebf363ae62baa7b *tests/testthat.R
 b2aee8409f88eda76e3cdf87b4d84925 *tests/testthat/test-tcensReg.R
-1f35801adc972e063ef5bc29666fdeef *vignettes/tcensReg.Rmd
+8ad19a17f6158d248afec1e3a2b9be5e *vignettes/tcensReg.Rmd

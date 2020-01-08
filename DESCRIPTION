@@ -1,6 +1,6 @@
 Package: tcensReg
 Title: MLE of a Truncated Normal Distribution with Censored Data
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: 
     person(given = "Justin",
            family = "Williams",
@@ -18,8 +18,8 @@ VignetteBuilder: knitr
 BugReports: https://github.com/williazo/tcensReg/issues
 URL: https://github.com/williazo/tcensReg
 NeedsCompilation: no
-Packaged: 2019-12-17 18:30:47 UTC; williazo
+Packaged: 2020-01-03 20:10:12 UTC; williazo
 Author: Justin Williams [aut, cre]
 Maintainer: Justin Williams <williazo@ucla.edu>
 Repository: CRAN
-Date/Publication: 2019-12-18 14:50:07 UTC
+Date/Publication: 2020-01-08 20:50:03 UTC
