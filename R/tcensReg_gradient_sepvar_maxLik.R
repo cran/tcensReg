@@ -1,4 +1,4 @@
-#' Gradient Vector for Truncated Normal Distribution with Censoring with Linear Equation Mean for J Independent Truncated Normals with Seprate Variance
+#' maxLik Gradient Vector for J Independent Truncated Normal Random Variables with Separate Variance
 #'
 #' @param theta Numeric vector numeric vector containing estimates of beta and log sigma
 #' @param left_trunc Numeric scalar indicating the truncation value
@@ -10,6 +10,7 @@
 #' @importFrom stats dnorm pnorm
 #'
 #' @return Vector of gradient values with p-1 beta parameters and log sigma for the nth iterate
+#' @keywords internal
 
 tcensReg_gradient_sepvar_maxLik <- function(theta, y, X, group, left_trunc = -Inf, v = NULL){
 

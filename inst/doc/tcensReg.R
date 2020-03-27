@@ -1,7 +1,7 @@
-## ----setup, include=FALSE------------------------------------------------
+## ----setup, include=FALSE-----------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
-## ----how_to_install, eval=FALSE------------------------------------------
+## ----how_to_install, eval=FALSE-----------------------------------------------
 #  #stable CRAN version
 #  install.packages("tcensReg")
 #  
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #  install.packages("devtools")
 #  devtools::install_github("williazo/tcensReg")
 
-## ----single_pop_data_gen-------------------------------------------------
+## ----single_pop_data_gen------------------------------------------------------
 #loading the package
 library(tcensReg)  
 mu <- 0.5
@@ -22,7 +22,7 @@ y_star <- rtnorm(n=1000, mu=mu, sd=sigma, a=a)
 #note that the lowerbound will always be non-negative
 round(range(y_star), 3)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 nu <- 0.25
 y <- ifelse(y_star <= nu, nu, y_star)
 #calculating the number of censored observations
@@ -58,25 +58,27 @@ ggplot(data=dt, aes(x=y, y=..density..))+
         legend.text=element_text(size=15),  legend.key.width=unit(15, units="mm"), strip.text=element_text(size=20),
         axis.title=element_text(size=20))
 
-## ----message=FALSE-------------------------------------------------------
-tcensReg(y ~ 1, data=dt, a=0, v=0.25)
+## ----t_mod_est, message=FALSE-------------------------------------------------
+#loading the package
+library(tcensReg)  
+t_mod <- tcensReg(y ~ 1, data=dt, a=0, v=0.25)
+summary(t_mod)
 
-## ----message=FALSE-------------------------------------------------------
+## ----t_mod_full_print---------------------------------------------------------
+names(t_mod)
+
+## ----t_mod_compare, message=FALSE---------------------------------------------
 #tcensReg model
 output <- tcensReg(y ~ 1, data=dt, a=a, v=nu)
 #extracting the point estimates
-tcensReg_est <- output$theta 
-#exponentiating the estimate of log_sigma to obtain sigma
-tcensReg_est[2] <- exp(tcensReg_est[2]) 
+tcensReg_est <- coef(output) #this returns sigma rather than log sigma
 
 #OLS model
 lm_output <- lm(y ~ 1, data=dt) 
 lm_est <- c(coef(lm_output), summary(lm_output)$sigma)
 #censored only model, i.e., Tobit model
 cens_output <- tcensReg(y ~ 1, data=dt, v=nu) 
-cens_est <- cens_output$theta
-cens_est[2] <- exp(cens_est[2])
-
+cens_est <- coef(cens_output)
 
 results_df <- data.frame(rbind(c(mu, sigma),
                                t(tcensReg_est),
@@ -84,18 +86,19 @@ results_df <- data.frame(rbind(c(mu, sigma),
                                t(cens_est)))
 names(results_df) <- c("mu", "sigma")
 row.names(results_df) <- c("Truth", "tcensReg", "Normal MLE", "Tobit")
-results_df$mu_bias <- abs(results_df$mu - mu)
-results_df$sigma_bias <- abs(results_df$sigma - sigma)
+results_df$mu_bias <- results_df$mu - mu
+results_df$sigma_bias <- results_df$sigma - sigma
 
 knitr::kable(results_df, format="markdown", digits=4)
 
-## ----gen_twopopdata------------------------------------------------------
+## ----gen_twopopdata-----------------------------------------------------------
 mu_1 <- 0.5
 mu_2 <- 1
 sigma_1 <- 0.25
 sigma_2 <- 2
 a <- 0
 
+set.seed(032420)
 y_1_star <- rtnorm(1000, mu = mu_1, sd = sigma_1, a = a)
 y_2_star <- rtnorm(1000, mu = mu_2, sd = sigma_2, a = a)
 df <- data.frame(y_star = c(y_1_star, y_2_star), 
@@ -117,28 +120,31 @@ ggplot(data = df, aes(x = y_star, y = ..density.., group = group, fill = group, 
         legend.text = element_text(size = 15),  legend.key.width = unit(15, units = "mm"), strip.text = element_text(size = 20),
         axis.title = element_text(size = 20))
 
-## ----two_pop_censoring---------------------------------------------------
+## ----two_pop_censoring--------------------------------------------------------
 nu <- 0.25
 df$y <- ifelse(df$y_star<=nu, nu, df$y_star)
 
-## ----fit_sepvarmod-------------------------------------------------------
+## ----fit_sepvarmod------------------------------------------------------------
 mod_result <- tcensReg_sepvar(y ~ group, a=a, v=nu, group_var="group", method="maxLik", data=df)
 mod_result
 sepvar_est <- mod_result$theta
-sepvar_est[3:4] <- exp(sepvar_est[3:4])
+mu_1_est <- sepvar_est[1]
+mu_2_est <- sum(sepvar_est[1:2])
+sigma_1_est <- exp(sepvar_est[3])
+sigma_2_est <- exp(sepvar_est[4])
 
 results_df <- data.frame(rbind(c(mu_1, mu_2, sigma_1, sigma_2),
-                               t(sepvar_est)))
+                               c(mu_1_est, mu_2_est, sigma_1_est, sigma_2_est)))
 names(results_df) <- c("mu_1", "mu_2", "sigma_1", "sigma_2")
 row.names(results_df) <- c("Truth", "tcensReg")
-results_df$mu1_bias <- abs(results_df$mu_1 - mu_1)
-results_df$mu2_bias <- abs(results_df$mu_2 - mu_2)
-results_df$sigma1_bias <- abs(results_df$sigma_1 - sigma_1)
-results_df$sigma2_bias <- abs(results_df$sigma_2 - sigma_2)
+results_df$mu1_pct_bias <- paste0(round(((results_df$mu_1 - mu_1)/mu_1)*100, 2), "%")
+results_df$mu2_pct_bias <- paste0(round(((results_df$mu_2 - mu_2)/mu_2)*100, 2), "%")
+results_df$sigma1_pct_bias <- paste0(round(((results_df$sigma_1 - sigma_1)/sigma_1)*100, 2), "%")
+results_df$sigma2_pct_bias <- paste0(round(((results_df$sigma_2 - sigma_2)/sigma_2)*100, 2), "%")
 
 knitr::kable(results_df, format="markdown", digits=4)
 
-## ----speed comparison, message=FALSE, warning=FALSE----------------------
+## ----speed comparison, message=FALSE, warning=FALSE---------------------------
 library(microbenchmark)
 #testing the censored-only regression
 library(censReg)

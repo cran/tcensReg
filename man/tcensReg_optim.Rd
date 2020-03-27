@@ -4,9 +4,18 @@
 \alias{tcensReg_optim}
 \title{Optimization for Truncated Normal Distribution with Censoring with Linear Equation Mean using optim}
 \usage{
-tcensReg_optim(y, X, a = -Inf, v = NULL, method, epsilon = 1e-04,
-  tol_val = 1e-06, max_iter = 100, step_max = 10,
-  theta_init = NULL)
+tcensReg_optim(
+  y,
+  X,
+  a = -Inf,
+  v = NULL,
+  method,
+  epsilon = 1e-04,
+  tol_val = 1e-06,
+  max_iter = 100,
+  step_max = 10,
+  theta_init = NULL
+)
 }
 \arguments{
 \item{y}{Numeric vector with the observed truncated and censored outcomes}
@@ -17,7 +26,8 @@ tcensReg_optim(y, X, a = -Inf, v = NULL, method, epsilon = 1e-04,
 
 \item{v}{Numeric scalar indicating the censoring value. Initially set to NULL indicating no censoring}
 
-\item{method}{Character value indicating which optimization method to perform.}
+\item{method}{Character value indicating which optimization routine to perform.
+Choices include \code{Newton}, \code{BFGS}, and \code{CG}. See details for explanation on each method.}
 
 \item{epsilon}{Numeric value used to define when the algorithm should stop when the gradient is less then epsilon. Default is 0.001}
 
@@ -27,12 +37,14 @@ tcensReg_optim(y, X, a = -Inf, v = NULL, method, epsilon = 1e-04,
 
 \item{step_max}{Maximum number of steps when performing line search. Default is 10}
 
-\item{theta_init}{Initial values of theta provided by the user. If unspecified then calculcates values from OLS regression}
+\item{theta_init}{Initial values of theta provided by the user. If unspecified then calculates values from OLS regression}
 }
 \value{
 Returns a list of final estimate of theta, total number of iterations performed, initial log-likelihood,
 final log-likelihood, and estimated variance covariance matrix.
 }
 \description{
-Optimization for Truncated Normal Distribution with Censoring with Linear Equation Mean using optim
+Iteratively solves likelihood of truncated normal with censoring
+using only gradient and/or likelihood values
 }
+\keyword{internal}
